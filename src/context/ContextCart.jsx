@@ -1,12 +1,10 @@
 import { createContext, useContext, useReducer } from "react";
 const CartContextProvider = createContext(null);
 import faker from "faker";
-import cartReducer from "./Reducer";
+import cartReducer, {productReducer} from "./Reducer";
 
 export const ContextCart = ({ children }) => {
   let total = 0;
-
-
   const products = [...Array(20)].map(() => ({
     id: faker.datatype.uuid(),
     name: faker.commerce.productName(),
@@ -28,13 +26,21 @@ export const ContextCart = ({ children }) => {
     total+=items.price * items.qty;
   }
 
+  
+  const[productState, productDispatch]=useReducer(productReducer,{
+    byStock:false,
+    byFastDelivery:false,
+    byRating:0,
+    searchQuery:"",
+  });
+  
   const contextValue = {
     state,
     dispatch,
-    total
+    total,
+    productState,
+    productDispatch
   };
-
-
   return (
     <CartContextProvider.Provider value={contextValue}>
       {children}

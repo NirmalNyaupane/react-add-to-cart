@@ -5,7 +5,7 @@ export const SingleProduct = (props) => {
   const { id, image, name, inStock, fastDelivery, price, ratings } = props.data;
 
   return (
-    <div className="single-product w-96 shadow-lg rounded-md">
+    <div className="single-product shadow-lg rounded-md">
       <div className="image-container overflow-hidden">
         <img
           src={image}
@@ -19,13 +19,13 @@ export const SingleProduct = (props) => {
         <h3 className="font-bold my-2">{`Rs. ${price}`}</h3>
         <div className="flex">
         {
-          [...Array(ratings)].map((ele)=>{
-            return <AiFillStar key={ele}/>;
+          [...Array(ratings)].map((ele,indx)=>{
+            return <AiFillStar key={indx}/>;
           })
         }
         {
-          [...Array(5-ratings)].map((ele)=>{
-            return <AiOutlineStar key={ele}/>
+          [...Array(5-ratings)].map((ele,indx)=>{
+            return <AiOutlineStar key={indx}/>
           })
         }
       </div>

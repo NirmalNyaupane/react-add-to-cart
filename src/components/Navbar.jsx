@@ -9,15 +9,13 @@ import { contextData } from "../context/ContextCart";
 
 export const Navbar = () => {
   const [isActive, setActive] = useState(false);
-  const { state, dispatch } = contextData();
-
+  const { state, dispatch, productDispatch } = contextData();
   return (
     <header className="bg-black text-white shadow-lg">
       <nav className="flex justify-around p-4">
         <div className="first-part flex gap-8 items-center">
           <div className="font-bold text-white text-xl cursor-pointer">
             <Link to="/">NIRMAL SHOP</Link>
-            <Link to="/cart">Cart</Link>
           </div>
           <div className="navbar-items"></div>
         </div>
@@ -30,6 +28,9 @@ export const Navbar = () => {
             placeholder="Search products"
             className="text-black block focus:outline-none px-4 py-1 
           rounded-sm shadow-sm w-60"
+            onChange={(e) => {
+              productDispatch({ type: "SERCH_QUERY", payload: e.target.value });
+            }}
           />
         </div>
 
@@ -47,6 +48,7 @@ export const Navbar = () => {
               className="drop-down absolute bg-white text-black w-[20rem]
              p-3 shadow-md rounded-sm -translate-x-[50%] top-11"
             >
+              {state.cart.length < 1 && <p>Cart is empty</p>}
               <ul>
                 {state.cart.map((element) => {
                   const { id, image } = element;
@@ -75,14 +77,13 @@ export const Navbar = () => {
                     </li>
                   );
                 })}
-
-                <li
-                  className="cursor my-3 bg-blue-600 p-2 cursor-pointer
-                 hover:bg-blue-500 hover:transition-all hover:delay-100"
-                >
-                <Link to="/cart">Cart</Link>
-                </li>
               </ul>
+              <Link
+                to="/cart"
+                className="text-white bg-blue-700 block p-2 rounded-sm my-3"
+              >
+                Cart
+              </Link>
             </div>
           )}
         </div>
